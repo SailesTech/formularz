@@ -3,7 +3,7 @@
     --secondary-color: #8f9396;
     --success-color: #27ae60;
     --danger-color: #e74c3c;
-    --light-bg: #f0f0f0;
+    --light-bg: white;
     --border-color: #dee2e6;
 }
 
@@ -13,7 +13,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #fadebe 0%, #ffc078 100%);
+    background: linear-gradient(135deg, #fceeb8 0%, #ffc078 100%);
     min-height: 100vh;
     margin: 0;
     padding: 20px;
@@ -31,7 +31,7 @@ body {
 
 /* Header z logo */
 .header-section {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background: linear-gradient(135deg, #949492 0%, #c7c6c5 100%);
     color: white;
     padding: 40px 30px;
     text-align: center;
@@ -160,7 +160,7 @@ body {
 
 /* Przyciski */
 .add-employee-btn {
-    background: linear-gradient(135deg, var(--success-color) 0%, #2ecc71 100%);
+    background: linear-gradient(135deg, #fceeb8 0%, #ffc078 100%);
     border: none;
     color: white;
     padding: 15px 30px;
