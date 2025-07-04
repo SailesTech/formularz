@@ -207,9 +207,15 @@ body {
 }
 
 /* Modal styles */
+.modal-dialog {
+  max-width: 90vw;
+}
+
 .modal-content {
     border-radius: 15px;
     border: none;
+    max-height: 80vh;
+    overflow-y: auto;
 }
 
 .modal-header {
@@ -346,6 +352,16 @@ body {
 
 .form-control:valid {
     border-color: var(--success-color);
+}
+
+.preview-section table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+.preview-section table th,
+.preview-section table td {
+  padding: 4px 8px;
 }
 
 /* Animacje */
