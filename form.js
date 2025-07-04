@@ -406,12 +406,16 @@ document.addEventListener('DOMContentLoaded', () => {
       const result = await submitToAirtable(formData);
       
       if (result.success) {
-        showMessage(`Wniosek wysłany pomyślnie! ID: ${result.submissionId} (${result.employeeCount} pracowników)`, 'success');
+        // Ukryj modal
         bootstrap.Modal.getInstance(document.getElementById('previewModal')).hide();
         
-        // Opcjonalnie: wyczyść formularz lub przekieruj
-        // document.getElementById('kfsForm').reset();
-      }
+        // Ukryj główny kontener
+        document.querySelector('.main-container').style.display = 'none';
+        
+        // Pokaż stronę dziękujemy
+        document.getElementById('submissionNumber').textContent = result.submissionId + ` (${result.employeeCount} pracowników)`;
+        document.getElementById('thankYouPage').style.display = 'flex';
+    }
     } catch (error) {
       console.error('Błąd podczas wysyłania:', error);
       showMessage(`Błąd wysyłki: ${error.message}`, 'error');
