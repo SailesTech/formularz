@@ -24,226 +24,180 @@
             <form id="kfsForm">
                 <!-- SEKCJA 1: DANE PODMIOTU -->
                 <div class="mb-5">
-                    <h2 class="section-title">
-                        <i class="fas fa-building"></i>
-                        Sekcja 1: Dane podmiotu
-                    </h2>
-                    
-                    <!-- Wiersz 1: Nazwa podmiotu -->
-                    <div class="form-row">
-                        <div class="row">
-                            <div class="col-12">
-                                <label class="form-label">Nazwa podmiotu <span class="required">*</span></label>
-                                <input type="text" class="form-control" name="company_name" required>
-                            </div>
-                        </div>
+                  <h2 class="section-title">
+                    <i class="fas fa-building"></i>
+                    Sekcja 1: Dane podmiotu
+                  </h2>
+                  <!-- Wiersz 1: nazwa | NIP | PKD -->
+                  <div class="form-row">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <label class="form-label">Nazwa podmiotu <span class="required">*</span></label>
+                        <input type="text" class="form-control" name="company_name" required>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="form-label">NIP <span class="required">*</span></label>
+                        <input type="text" class="form-control" name="company_nip"
+                               pattern="[0-9]{3}-?[0-9]{3}-?[0-9]{2}-?[0-9]{2}" required>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="form-label">Główne PKD <span class="required">*</span></label>
+                        <input type="text" class="form-control" name="company_pkd" required>
+                      </div>
                     </div>
-
-                    <!-- Wiersz 2: NIP, główne PKD -->
-                    <div class="form-row">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label class="form-label">NIP <span class="required">*</span></label>
-                                <input type="text" class="form-control" name="company_nip" pattern="[0-9]{3}-?[0-9]{3}-?[0-9]{2}-?[0-9]{2}" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Główne PKD <span class="required">*</span></label>
-                                <input type="text" class="form-control" name="company_pkd" required>
-                            </div>
-                        </div>
+                  </div>
+                  <!-- Wiersz 2: reprezentant i kontakt w jednej linii -->
+                  <div class="form-row">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <label class="form-label">Reprezentant <span class="required">*</span></label>
+                        <input type="text" class="form-control" name="representative_person" required>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="form-label">Tel. repr. <span class="required">*</span></label>
+                        <input type="tel" class="form-control" name="representative_phone" required>
+                      </div>
+                      <div class="col-md-3">
+                        <label class="form-label">Kontakt (imię i nazw.) <span class="required">*</span></label>
+                        <input type="text" class="form-control" name="contact_person_name" required>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="form-label">Tel. kontaktowy <span class="required">*</span></label>
+                        <input type="tel" class="form-control" name="contact_person_phone" required>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="form-label">E-mail kontaktowy <span class="required">*</span></label>
+                        <input type="email" class="form-control" name="contact_person_email" required>
+                      </div>
                     </div>
-
-                    <!-- Wiersz 3: Osoba reprezentująca, nr tel -->
-                    <div class="form-row">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <label class="form-label">Imię i nazwisko osoby reprezentującej podmiot <span class="required">*</span></label>
-                                <input type="text" class="form-control" name="representative_person" required>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Nr telefonu tej osoby <span class="required">*</span></label>
-                                <input type="tel" class="form-control" name="representative_phone" required>
-                            </div>
-                        </div>
+                  </div>
+                  <!-- Wiersz 3: adresy -->
+                  <div class="form-row">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <label class="form-label">Adres siedziby <span class="required">*</span></label>
+                        <textarea class="form-control" name="company_address" rows="2" required></textarea>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="form-label">Miejsce działalności <span class="required">*</span></label>
+                        <textarea class="form-control" name="activity_place" rows="2" required></textarea>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="form-label">Adres korespondencji <span class="required">*</span></label>
+                        <textarea class="form-control" name="correspondence_address" rows="2" required></textarea>
+                      </div>
                     </div>
-
-                    <!-- Wiersz 4: Osoba kontaktowa (imię, tel, email) -->
-                    <div class="form-row">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label class="form-label">Imię i nazwisko osoby kontaktowej <span class="required">*</span></label>
-                                <input type="text" class="form-control" name="contact_person_name" required>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Telefon osoby kontaktowej <span class="required">*</span></label>
-                                <input type="tel" class="form-control" name="contact_person_phone" required>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">E-mail osoby kontaktowej <span class="required">*</span></label>
-                                <input type="email" class="form-control" name="contact_person_email" required>
-                            </div>
-                        </div>
+                  </div>
+                  <!-- Wiersz 4: bank, konto, pracownicy, wielkość, suma -->
+                  <div class="form-row">
+                    <div class="row">
+                      <div class="col-md-2">
+                        <label class="form-label">Nazwa banku <span class="required">*</span></label>
+                        <input type="text" class="form-control" name="bank_name" required>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="form-label">Numer konta <span class="required">*</span></label>
+                        <input type="text" class="form-control" name="bank_account" required>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="form-label">Łączna liczba prac. <span class="required">*</span></label>
+                        <input type="number" class="form-control" name="total_employees" min="1" required>
+                      </div>
+                      <div class="col-md-3">
+                        <label class="form-label">Wielkość podmiotu <span class="required">*</span></label>
+                        <select class="form-select" name="company_size" required>
+                          <option value="">Wybierz</option>
+                          <option value="mikro">Mikro</option>
+                          <option value="mały">Mały</option>
+                          <option value="średni">Średni</option>
+                          <option value="duży">Duży</option>
+                          <option value="inne">Inne</option>
+                        </select>
+                      </div>
+                      <div class="col-md-3">
+                        <label class="form-label">Roczna suma <2 mln EUR? <span class="required">*</span></label>
+                        <select class="form-select" name="balance_under_2m" required>
+                          <option value="">Wybierz</option>
+                          <option value="tak">TAK</option>
+                          <option value="nie">NIE</option>
+                        </select>
+                      </div>
                     </div>
-
-                    <!-- Wiersz 5: Adresy -->
-                    <div class="form-row">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label class="form-label">Adres siedziby <span class="required">*</span></label>
-                                <textarea class="form-control" name="company_address" rows="2" required></textarea>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Miejsce prowadzenia działalności <span class="required">*</span></label>
-                                <textarea class="form-control" name="activity_place" rows="2" required></textarea>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Adres do korespondencji <span class="required">*</span></label>
-                                <textarea class="form-control" name="correspondence_address" rows="2" required></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Wiersz 6: Bank, konto -->
-                    <div class="form-row">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label class="form-label">Nazwa banku <span class="required">*</span></label>
-                                <input type="text" class="form-control" name="bank_name" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Numer konta (do przelania środków za szkolenie KFS) <span class="required">*</span></label>
-                                <input type="text" class="form-control" name="bank_account" required>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Wiersz 7: Pracownicy, wielkość, suma bilansowa -->
-                    <div class="form-row">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label class="form-label">Łączna liczba zatrudnionych pracowników na umowę o pracę <span class="required">*</span></label>
-                                <input type="number" class="form-control" name="total_employees" min="1" required>
-                                <small class="text-muted">Wszyscy zatrudnieni pracownicy, także nie uczestniczący w szkoleniu</small>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Wielkość podmiotu <span class="required">*</span></label>
-                                <select class="form-select" name="company_size" required>
-                                    <option value="">Wybierz wielkość</option>
-                                    <option value="mikro">Mikro</option>
-                                    <option value="mały">Mały</option>
-                                    <option value="średni">Średni</option>
-                                    <option value="duży">Duży</option>
-                                    <option value="inne">Inne (np. Urząd)</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Czy roczna suma bilansowa nie przekracza 2 milionów EUR? <span class="required">*</span></label>
-                                <select class="form-select" name="balance_under_2m" required>
-                                    <option value="">Wybierz odpowiedź</option>
-                                    <option value="tak">TAK</option>
-                                    <option value="nie">NIE</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+                  </div>
                 </div>
 
                 <!-- SEKCJA 2: PRACOWNICY -->
                 <div class="mb-5">
-                    <h2 class="section-title">
-                        <i class="fas fa-users"></i>
-                        Sekcja 2: Dane pracowników uczestniczących w szkoleniu
-                    </h2>
-
-                    <div id="employeesContainer">
-                        <!-- Pierwszy pracownik -->
-                        <div class="employee-card" data-employee="1">
-                            <div class="employee-number">1</div>
-                            <button type="button" class="remove-employee" onclick="removeEmployee(1)" style="display: none;">
-                                <i class="fas fa-times"></i>
-                            </button>
-                            
-                            <!-- Wiersz 1: Imię nazwisko, płeć -->
-                            <div class="form-row">
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <label class="form-label">Imię i nazwisko <span class="required">*</span></label>
-                                        <input type="text" class="form-control" name="employee_1_name" required>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label">Płeć <span class="required">*</span></label>
-                                        <select class="form-select" name="employee_1_gender" required>
-                                            <option value="">Wybierz</option>
-                                            <option value="M">Mężczyzna</option>
-                                            <option value="K">Kobieta</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Wiersz 2: Wiek, stanowisko, wykształcenie -->
-                            <div class="form-row">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <label class="form-label">Wiek <span class="required">*</span></label>
-                                        <input type="number" class="form-control" name="employee_1_age" min="18" max="70" required>
-                                    </div>
-                                    <div class="col-md-5">
-                                        <label class="form-label">Stanowisko <span class="required">*</span></label>
-                                        <input type="text" class="form-control" name="employee_1_position" required>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label">Poziom wykształcenia <span class="required">*</span></label>
-                                        <select class="form-select" name="employee_1_education" required>
-                                            <option value="">Wybierz</option>
-                                            <option value="podstawowe">Podstawowe</option>
-                                            <option value="gimnazjalne">Gimnazjalne</option>
-                                            <option value="zawodowe">Zasadnicze zawodowe</option>
-                                            <option value="srednie">Średnie</option>
-                                            <option value="policealne">Policealne</option>
-                                            <option value="wyzsze">Wyższe</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Wiersz 3: Rodzaj umowy, od kiedy, do kiedy -->
-                            <div class="form-row">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label class="form-label">Rodzaj umowy <span class="required">*</span></label>
-                                        <select class="form-select" name="employee_1_contract_type" required>
-                                            <option value="">Wybierz</option>
-                                            <option value="umowa_o_prace">Umowa o pracę</option>
-                                            <option value="umowa_zlecenie">Umowa zlecenie</option>
-                                            <option value="umowa_dzielo">Umowa o dzieło</option>
-                                            <option value="b2b">Kontrakt B2B</option>
-                                            <option value="powolanie">Powołanie</option>
-                                            <option value="inne">Inne</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label">Od kiedy umowa <span class="required">*</span></label>
-                                        <input type="date" class="form-control" name="employee_1_contract_start" required>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label">Do kiedy umowa</label>
-                                        <input type="date" class="form-control" name="employee_1_contract_end">
-                                        <small class="text-muted">Puste = czas nieokreślony</small>
-                                    </div>
-                                </div>
-                            </div>
+                  <h2 class="section-title">
+                    <i class="fas fa-users"></i>
+                    Sekcja 2: Dane pracowników
+                  </h2>
+                  <div id="employeesContainer">
+                    <div class="employee-card" data-employee="1">
+                      <div class="employee-number">1</div>
+                      <button type="button" class="remove-employee" onclick="removeEmployee(1)" style="display:none">
+                        <i class="fas fa-times"></i>
+                      </button>
+                      <!-- Wiersz 1: imię, płeć, wiek, wykształcenie -->
+                      <div class="form-row">
+                        <div class="row">
+                          <div class="col-md-4">
+                            <label class="form-label">Imię i nazwisko <span class="required">*</span></label>
+                            <input type="text" class="form-control" name="employee_1_name" required>
+                          </div>
+                          <div class="col-md-2">
+                            <label class="form-label">Płeć <span class="required">*</span></label>
+                            <select class="form-select" name="employee_1_gender" required>
+                              <option value="">Wybierz</option>
+                              <option value="M">Mężczyzna</option>
+                              <option value="K">Kobieta</option>
+                            </select>
+                          </div>
+                          <div class="col-md-2">
+                            <label class="form-label">Wiek <span class="required">*</span></label>
+                            <input type="number" class="form-control" name="employee_1_age" min="18" max="70" required>
+                          </div>
+                          <div class="col-md-4">
+                            <label class="form-label">Wykształcenie <span class="required">*</span></label>
+                            <select class="form-select" name="employee_1_education" required>
+                              <option value="">Wybierz</option>
+                              <!-- opcje -->
+                            </select>
+                          </div>
                         </div>
+                      </div>
+                      <!-- Wiersz 2: stanowisko, rodzaj umowy, od, do -->
+                      <div class="form-row">
+                        <div class="row">
+                          <div class="col-md-3">
+                            <label class="form-label">Stanowisko <span class="required">*</span></label>
+                            <input type="text" class="form-control" name="employee_1_position" required>
+                          </div>
+                          <div class="col-md-3">
+                            <label class="form-label">Rodzaj umowy <span class="required">*</span></label>
+                            <select class="form-select" name="employee_1_contract_type" required>
+                              <option value="">Wybierz</option>
+                              <!-- opcje -->
+                            </select>
+                          </div>
+                          <div class="col-md-3">
+                            <label class="form-label">Od kiedy <span class="required">*</span></label>
+                            <input type="date" class="form-control" name="employee_1_contract_start" required>
+                          </div>
+                          <div class="col-md-3">
+                            <label class="form-label">Do kiedy</label>
+                            <input type="date" class="form-control" name="employee_1_contract_end">
+                          </div>
+                        </div>
+                      </div>
                     </div>
-
-                    <div class="text-center">
-                        <button type="button" class="add-employee-btn" id="addEmployeeBtn">
-                            <i class="fas fa-plus"></i>
-                            Dodaj kolejnego pracownika
-                        </button>
-                    </div>
+                  </div>
+                  <div class="text-center">
+                    <button type="button" id="addEmployeeBtn" class="add-employee-btn">
+                      <i class="fas fa-plus"></i> Dodaj kolejnego pracownika
+                    </button>
+                  </div>
                 </div>
-            </form>
 
             <!-- SUBMIT SECTION -->
             <div class="submit-section">
