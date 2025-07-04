@@ -4,7 +4,8 @@ let employeeCounter = 1;
 const AIRTABLE_CONFIG = {
     pat: 'pat2GsVT2OUjyaYt7.0f1c8cde267165a96b2d01bfb8724f748db8493b9d8ce6ad81f30cefd6f0ebfb',
     baseId: 'appglhQbUMO1xf7GO',
-    tableId: 'tbl2SOkYU0eBG2ZGj',
+    applicationsTableId: 'tbl2SOkYU0eBG2ZGj', // Applications table
+    employeesTableId: 'tblh7tsaWWwXxBgSi', // Employees table
     baseUrl: 'https://api.airtable.com/v0'
 };
 
@@ -191,7 +192,7 @@ function generatePreview() {
 // Pobieranie ostatniego ID z Airtable
 async function getLastSubmissionId() {
     try {
-        const response = await fetch(`${AIRTABLE_CONFIG.baseUrl}/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableId}?maxRecords=1&sort%5B0%5D%5Bfield%5D=submission_id&sort%5B0%5D%5Bdirection%5D=desc`, {
+        const response = await fetch(`${AIRTABLE_CONFIG.baseUrl}/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.applicationsTableId}?maxRecords=1&sort%5B0%5D%5Bfield%5D=submission_id&sort%5B0%5D%5Bdirection%5D=desc`, {
             headers: {
                 'Authorization': `Bearer ${AIRTABLE_CONFIG.pat}`,
                 'Content-Type': 'application/json'
@@ -235,8 +236,8 @@ async function submitToAirtable(formData) {
         const submissionId = await generateSubmissionId();
         console.log('Wygenerowane submission ID:', submissionId);
 
-        // Przygotuj dane do wysłania
-        const airtableData = {
+        // KROK 1: Wyślij dane głównego wniosku do tabeli Applications
+        const applicationData = {
             records: [{
                 fields: {
                     submission_id: submissionId,
@@ -257,55 +258,93 @@ async function submitToAirtable(formData) {
                     total_employees: parseInt(formData.total_employees) || 0,
                     company_size: formData.company_size || '',
                     balance_under_2m: formData.balance_under_2m || '',
-                    status: 'Nowy'
+                    status: 'Submitted'
                 }
             }]
         };
 
-        // Dodaj dane pracowników do głównego rekordu
-        let employeeIndex = 1;
-        while (formData[`employee_${employeeIndex}_name`]) {
-            const empData = {
-                [`employee_${employeeIndex}_name`]: formData[`employee_${employeeIndex}_name`] || '',
-                [`employee_${employeeIndex}_gender`]: formData[`employee_${employeeIndex}_gender`] || '',
-                [`employee_${employeeIndex}_age`]: parseInt(formData[`employee_${employeeIndex}_age`]) || 0,
-                [`employee_${employeeIndex}_education`]: formData[`employee_${employeeIndex}_education`] || '',
-                [`employee_${employeeIndex}_position`]: formData[`employee_${employeeIndex}_position`] || '',
-                [`employee_${employeeIndex}_contract_type`]: formData[`employee_${employeeIndex}_contract_type`] || '',
-                [`employee_${employeeIndex}_contract_start`]: formData[`employee_${employeeIndex}_contract_start`] || '',
-                [`employee_${employeeIndex}_contract_end`]: formData[`employee_${employeeIndex}_contract_end`] || ''
-            };
-            
-            // Dodaj dane pracownika do głównego rekordu
-            Object.assign(airtableData.records[0].fields, empData);
-            employeeIndex++;
-        }
+        console.log('Dane głównego wniosku:', applicationData);
 
-        console.log('Dane do wysłania do Airtable:', airtableData);
-
-        // Wyślij dane do Airtable
-        const response = await fetch(`${AIRTABLE_CONFIG.baseUrl}/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableId}`, {
+        // Wyślij dane głównego wniosku
+        const applicationResponse = await fetch(`${AIRTABLE_CONFIG.baseUrl}/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.applicationsTableId}`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${AIRTABLE_CONFIG.pat}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(airtableData)
+            body: JSON.stringify(applicationData)
         });
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            console.error('Błąd Airtable:', errorData);
-            throw new Error(`Błąd Airtable: ${response.status} - ${errorData.error?.message || 'Nieznany błąd'}`);
+        if (!applicationResponse.ok) {
+            const errorData = await applicationResponse.json();
+            console.error('Błąd wysyłania wniosku:', errorData);
+            throw new Error(`Błąd Airtable Applications: ${applicationResponse.status} - ${errorData.error?.message || 'Nieznany błąd'}`);
         }
 
-        const result = await response.json();
-        console.log('Odpowiedź z Airtable:', result);
+        const applicationResult = await applicationResponse.json();
+        const applicationRecordId = applicationResult.records[0].id;
+        console.log('Utworzono główny rekord wniosku:', applicationRecordId);
+
+        // KROK 2: Zbierz i wyślij pracowników do tabeli Employees
+        const employeeRecords = [];
+        let employeeIndex = 1;
+        
+        while (formData[`employee_${employeeIndex}_name`]) {
+            const employeeRecord = {
+                fields: {
+                    employee_name: formData[`employee_${employeeIndex}_name`] || '',
+                    gender: formData[`employee_${employeeIndex}_gender`] || '',
+                    age: parseInt(formData[`employee_${employeeIndex}_age`]) || 0,
+                    education: formData[`employee_${employeeIndex}_education`] || '',
+                    position: formData[`employee_${employeeIndex}_position`] || '',
+                    contract_type: formData[`employee_${employeeIndex}_contract_type`] || '',
+                    contract_start: formData[`employee_${employeeIndex}_contract_start`] || '',
+                    contract_end: formData[`employee_${employeeIndex}_contract_end`] || '',
+                    application_id: [applicationRecordId] // Link do głównego rekordu
+                }
+            };
+            employeeRecords.push(employeeRecord);
+            employeeIndex++;
+        }
+
+        if (employeeRecords.length > 0) {
+            const employeeData = {
+                records: employeeRecords
+            };
+
+            console.log('Dane pracowników:', employeeData);
+
+            // Wyślij pracowników (batch do 10 rekordów na raz)
+            const batchSize = 10;
+            for (let i = 0; i < employeeRecords.length; i += batchSize) {
+                const batch = employeeRecords.slice(i, i + batchSize);
+                const batchData = { records: batch };
+
+                const employeeResponse = await fetch(`${AIRTABLE_CONFIG.baseUrl}/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.employeesTableId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_CONFIG.pat}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(batchData)
+                });
+
+                if (!employeeResponse.ok) {
+                    const errorData = await employeeResponse.json();
+                    console.error('Błąd wysyłania pracowników:', errorData);
+                    throw new Error(`Błąd Airtable Employees: ${employeeResponse.status} - ${errorData.error?.message || 'Nieznany błąd'}`);
+                }
+
+                const employeeResult = await employeeResponse.json();
+                console.log(`Utworzono batch pracowników (${i+1}-${i+batch.length}):`, employeeResult.records.map(r => r.id));
+            }
+        }
 
         return {
             success: true,
             submissionId: submissionId,
-            recordId: result.records[0].id
+            applicationRecordId: applicationRecordId,
+            employeeCount: employeeRecords.length
         };
 
     } catch (error) {
@@ -366,7 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const result = await submitToAirtable(formData);
       
       if (result.success) {
-        showMessage(`Wniosek wysłany pomyślnie! ID: ${result.submissionId}`, 'success');
+        showMessage(`Wniosek wysłany pomyślnie! ID: ${result.submissionId} (${result.employeeCount} pracowników)`, 'success');
         bootstrap.Modal.getInstance(document.getElementById('previewModal')).hide();
         
         // Opcjonalnie: wyczyść formularz lub przekieruj
