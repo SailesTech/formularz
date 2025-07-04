@@ -14,77 +14,68 @@ function addEmployee() {
         <button type="button" class="remove-employee" onclick="removeEmployee(${employeeCounter})">
             <i class="fas fa-times"></i>
         </button>
-        
-        <!-- Wiersz 1: Imię nazwisko, płeć -->
-        <div class="form-row">
-            <div class="row">
-                <div class="col-md-8">
-                    <label class="form-label">Imię i nazwisko <span class="required">*</span></label>
-                    <input type="text" class="form-control" name="employee_${employeeCounter}_name" required>
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label">Płeć <span class="required">*</span></label>
-                    <select class="form-select" name="employee_${employeeCounter}_gender" required>
-                        <option value="">Wybierz</option>
-                        <option value="M">Mężczyzna</option>
-                        <option value="K">Kobieta</option>
-                    </select>
-                </div>
-            </div>
+        <!-- Wiersz 1: imię, płeć, wiek, wykształcenie -->
+      <div class="form-row">
+        <div class="row">
+          <div class="col-md-4">
+            <label class="form-label">Imię i nazwisko <span class="required">*</span></label>
+            <input type="text" class="form-control" name="employee_1_name" required>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Płeć <span class="required">*</span></label>
+            <select class="form-select" name="employee_1_gender" required>
+              <option value="">Wybierz</option>
+              <option value="M">Mężczyzna</option>
+              <option value="K">Kobieta</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Wiek <span class="required">*</span></label>
+            <input type="number" class="form-control" name="employee_1_age" min="18" max="70" required>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Wykształcenie <span class="required">*</span></label>
+            <select class="form-select" name="employee_1_education" required>
+              <option value="">Wybierz</option>
+              <option value="podstawowe">Podstawowe</option>
+              <option value="gimnazjalne">Gimnazjalne</option>
+              <option value="zawodowe">Zasadnicze zawodowe</option>
+              <option value="srednie">Średnie</option>
+              <option value="policealne">Policealne</option>
+              <option value="wyzsze">Wyższe</option>
+            </select>
+          </div>
         </div>
-
-        <!-- Wiersz 2: Wiek, stanowisko, wykształcenie -->
-        <div class="form-row">
-            <div class="row">
-                <div class="col-md-3">
-                    <label class="form-label">Wiek <span class="required">*</span></label>
-                    <input type="number" class="form-control" name="employee_${employeeCounter}_age" min="18" max="70" required>
-                </div>
-                <div class="col-md-5">
-                    <label class="form-label">Stanowisko <span class="required">*</span></label>
-                    <input type="text" class="form-control" name="employee_${employeeCounter}_position" required>
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label">Poziom wykształcenia <span class="required">*</span></label>
-                    <select class="form-select" name="employee_${employeeCounter}_education" required>
-                        <option value="">Wybierz</option>
-                        <option value="podstawowe">Podstawowe</option>
-                        <option value="gimnazjalne">Gimnazjalne</option>
-                        <option value="zawodowe">Zasadnicze zawodowe</option>
-                        <option value="srednie">Średnie</option>
-                        <option value="policealne">Policealne</option>
-                        <option value="wyzsze">Wyższe</option>
-                    </select>
-                </div>
-            </div>
+      </div>
+      <!-- Wiersz 2: stanowisko, rodzaj umowy, od, do -->
+      <div class="form-row">
+        <div class="row">
+          <div class="col-md-3">
+            <label class="form-label">Stanowisko <span class="required">*</span></label>
+            <input type="text" class="form-control" name="employee_1_position" required>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Rodzaj umowy <span class="required">*</span></label>
+            <select class="form-select" name="employee_1_contract_type" required>
+              <option value="">Wybierz</option>
+              <option value="umowa_o_prace">Umowa o pracę</option>
+              <option value="umowa_zlecenie">Umowa zlecenie</option>
+              <option value="umowa_dzielo">Umowa o dzieło</option>
+              <option value="b2b">Kontrakt B2B</option>
+              <option value="powolanie">Powołanie</option>
+              <option value="inne">Inne</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Od kiedy <span class="required">*</span></label>
+            <input type="date" class="form-control" name="employee_1_contract_start" required>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Do kiedy</label>
+            <input type="date" class="form-control" name="employee_1_contract_end">
+          </div>
         </div>
-
-        <!-- Wiersz 3: Rodzaj umowy, od kiedy, do kiedy -->
-        <div class="form-row">
-            <div class="row">
-                <div class="col-md-4">
-                    <label class="form-label">Rodzaj umowy <span class="required">*</span></label>
-                    <select class="form-select" name="employee_${employeeCounter}_contract_type" required>
-                        <option value="">Wybierz</option>
-                        <option value="umowa_o_prace">Umowa o pracę</option>
-                        <option value="umowa_zlecenie">Umowa zlecenie</option>
-                        <option value="umowa_dzielo">Umowa o dzieło</option>
-                        <option value="b2b">Kontrakt B2B</option>
-                        <option value="powolanie">Powołanie</option>
-                        <option value="inne">Inne</option>
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label">Od kiedy umowa <span class="required">*</span></label>
-                    <input type="date" class="form-control" name="employee_${employeeCounter}_contract_start" required>
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label">Do kiedy umowa</label>
-                    <input type="date" class="form-control" name="employee_${employeeCounter}_contract_end">
-                    <small class="text-muted">Puste = czas nieokreślony</small>
-                </div>
-            </div>
-        </div>
+      </div>
     `;
     
     container.appendChild(newEmployeeCard);
