@@ -142,141 +142,59 @@ function updateRemoveButtons() {
 
 // Funkcja do generowania podglądu
 function generatePreview() {
-    const formData = new FormData(document.getElementById('kfsForm'));
-    const data = Object.fromEntries(formData);
-    
-    let previewHTML = `
-        <div class="preview-section">
-            <h4 class="preview-title">Dane podmiotu</h4>
-            <div class="preview-item">
-                <span class="preview-label">Nazwa podmiotu:</span>
-                <span class="preview-value">${data.company_name || '-'}</span>
-            </div>
-            <div class="preview-item">
-                <span class="preview-label">NIP:</span>
-                <span class="preview-value">${data.company_nip || '-'}</span>
-            </div>
-            <div class="preview-item">
-                <span class="preview-label">Główne PKD:</span>
-                <span class="preview-value">${data.company_pkd || '-'}</span>
-            </div>
-            <div class="preview-item">
-                <span class="preview-label">Osoba reprezentująca:</span>
-                <span class="preview-value">${data.representative_person || '-'}</span>
-            </div>
-            <div class="preview-item">
-                <span class="preview-label">Telefon reprezentanta:</span>
-                <span class="preview-value">${data.representative_phone || '-'}</span>
-            </div>
-            <div class="preview-item">
-                <span class="preview-label">Osoba kontaktowa:</span>
-                <span class="preview-value">${data.contact_person_name || '-'}</span>
-            </div>
-            <div class="preview-item">
-                <span class="preview-label">Telefon kontaktowy:</span>
-                <span class="preview-value">${data.contact_person_phone || '-'}</span>
-            </div>
-            <div class="preview-item">
-                <span class="preview-label">E-mail kontaktowy:</span>
-                <span class="preview-value">${data.contact_person_email || '-'}</span>
-            </div>
-            <div class="preview-item">
-                <span class="preview-label">Adres siedziby:</span>
-                <span class="preview-value">${data.company_address || '-'}</span>
-            </div>
-            <div class="preview-item">
-                <span class="preview-label">Miejsce działalności:</span>
-                <span class="preview-value">${data.activity_place || '-'}</span>
-            </div>
-            <div class="preview-item">
-                <span class="preview-label">Adres korespondencji:</span>
-                <span class="preview-value">${data.correspondence_address || '-'}</span>
-            </div>
-            <div class="preview-item">
-                <span class="preview-label">Nazwa banku:</span>
-                <span class="preview-value">${data.bank_name || '-'}</span>
-            </div>
-            <div class="preview-item">
-                <span class="preview-label">Numer konta:</span>
-                <span class="preview-value">${data.bank_account || '-'}</span>
-            </div>
-            <div class="preview-item">
-                <span class="preview-label">Liczba wszystkich pracowników:</span>
-                <span class="preview-value">${data.total_employees || '-'}</span>
-            </div>
-            <div class="preview-item">
-                <span class="preview-label">Wielkość podmiotu:</span>
-                <span class="preview-value">${data.company_size || '-'}</span>
-            </div>
-            <div class="preview-item">
-                <span class="preview-label">Suma bilansowa < 2 mln EUR:</span>
-                <span class="preview-value">${data.balance_under_2m || '-'}</span>
-            </div>
-        </div>
-    `;
-
-    // Dodaj pracowników
-    const employees = document.querySelectorAll('.employee-card');
-    if (employees.length > 0) {
-        previewHTML += `
-            <div class="preview-section">
-                <h4 class="preview-title">Pracownicy uczestniczący w szkoleniu (${employees.length})</h4>
-        `;
-
-        employees.forEach((card, index) => {
-            const employeeNumber = index + 1;
-            const name = data[`employee_${employeeNumber}_name`] || '-';
-            const gender = data[`employee_${employeeNumber}_gender`] || '-';
-            const age = data[`employee_${employeeNumber}_age`] || '-';
-            const position = data[`employee_${employeeNumber}_position`] || '-';
-            const education = data[`employee_${employeeNumber}_education`] || '-';
-            const contractType = data[`employee_${employeeNumber}_contract_type`] || '-';
-            const contractStart = data[`employee_${employeeNumber}_contract_start`] || '-';
-            const contractEnd = data[`employee_${employeeNumber}_contract_end`] || 'czas nieokreślony';
-
-            previewHTML += `
-                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
-                    <h6 style="color: var(--primary-color); margin-bottom: 10px;">Pracownik ${employeeNumber}</h6>
-                    <div class="preview-item">
-                        <span class="preview-label">Imię i nazwisko:</span>
-                        <span class="preview-value">${name}</span>
-                    </div>
-                    <div class="preview-item">
-                        <span class="preview-label">Płeć:</span>
-                        <span class="preview-value">${gender}</span>
-                    </div>
-                    <div class="preview-item">
-                        <span class="preview-label">Wiek:</span>
-                        <span class="preview-value">${age}</span>
-                    </div>
-                    <div class="preview-item">
-                        <span class="preview-label">Stanowisko:</span>
-                        <span class="preview-value">${position}</span>
-                    </div>
-                    <div class="preview-item">
-                        <span class="preview-label">Wykształcenie:</span>
-                        <span class="preview-value">${education}</span>
-                    </div>
-                    <div class="preview-item">
-                        <span class="preview-label">Rodzaj umowy:</span>
-                        <span class="preview-value">${contractType}</span>
-                    </div>
-                    <div class="preview-item">
-                        <span class="preview-label">Od kiedy:</span>
-                        <span class="preview-value">${contractStart}</span>
-                    </div>
-                    <div class="preview-item">
-                        <span class="preview-label">Do kiedy:</span>
-                        <span class="preview-value">${contractEnd}</span>
-                    </div>
-                </div>
-            `;
-        });
-
-        previewHTML += `</div>`;
-    }
-
-    return previewHTML;
+  const formData = new FormData(document.getElementById('kfsForm'));
+  const d = Object.fromEntries(formData);
+  let html = `
+    <div class="preview-section">
+      <h4 class="preview-title">Dane podmiotu</h4>
+      <table class="table table-bordered table-sm">
+        <thead>
+          <tr>
+            <th>Nazwa</th><th>NIP</th><th>PKD</th>
+            <th>Reprezentant</th><th>Tel. repr.</th>
+            <th>Kontakt</th><th>Tel. kontakt.</th><th>E-mail</th>
+            <th>Adres</th><th>Działalność</th><th>Korespondencja</th>
+            <th>Bank</th><th>Konto</th><th>Liczba prac.</th>
+            <th>Wielkość</th><th>Suma <2 mln EUR</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>${d.company_name||'-'}</td><td>${d.company_nip||'-'}</td><td>${d.company_pkd||'-'}</td>
+            <td>${d.representative_person||'-'}</td><td>${d.representative_phone||'-'}</td>
+            <td>${d.contact_person_name||'-'}</td><td>${d.contact_person_phone||'-'}</td><td>${d.contact_person_email||'-'}</td>
+            <td>${d.company_address||'-'}</td><td>${d.activity_place||'-'}</td><td>${d.correspondence_address||'-'}</td>
+            <td>${d.bank_name||'-'}</td><td>${d.bank_account||'-'}</td><td>${d.total_employees||'-'}</td>
+            <td>${d.company_size||'-'}</td><td>${d.balance_under_2m||'-'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="preview-section">
+      <h4 class="preview-title">Pracownicy (${document.querySelectorAll('.employee-card').length})</h4>
+      <table class="table table-bordered table-sm">
+        <thead>
+          <tr>
+            <th>Lp.</th><th>Imię i nazw.</th><th>Płeć</th><th>Wiek</th>
+            <th>Wykształcenie</th><th>Rodzaj umowy</th><th>Od kiedy</th><th>Do kiedy</th>
+          </tr>
+        </thead>
+        <tbody>`;
+  document.querySelectorAll('.employee-card').forEach((card, i) => {
+    const n = i+1;
+    html += `<tr>
+      <td>${n}</td>
+      <td>${d[`employee_${n}_name`]||'-'}</td>
+      <td>${d[`employee_${n}_gender`]||'-'}</td>
+      <td>${d[`employee_${n}_age`]||'-'}</td>
+      <td>${d[`employee_${n}_education`]||'-'}</td>
+      <td>${d[`employee_${n}_contract_type`]||'-'}</td>
+      <td>${d[`employee_${n}_contract_start`]||'-'}</td>
+      <td>${d[`employee_${n}_contract_end`]||'nieokreślony'}</td>
+    </tr>`;
+  });
+  html += `</tbody></table></div>`;
+  return html;
 }
 
 // Funkcja walidacji formularza
