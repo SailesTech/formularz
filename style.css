@@ -31,7 +31,7 @@ body {
 
 /* Header z logo */
 .header-section {
-    background: linear-gradient(135deg, #949492 80%, #f6c3fa 100%);
+    linear-gradient(0deg, #ffc078 0%, #854b25 300%)
     color: white;
     padding: 40px 30px;
     text-align: center;
