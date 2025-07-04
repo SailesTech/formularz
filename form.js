@@ -292,6 +292,7 @@ async function submitToAirtable(formData) {
         while (formData[`employee_${employeeIndex}_name`]) {
             const employeeRecord = {
                 fields: {
+                    Id: `${submissionId}-${employeeIndex}`, // Własne ID: KFS-0001-1, KFS-0001-2, etc.
                     employee_name: formData[`employee_${employeeIndex}_name`] || '',
                     gender: formData[`employee_${employeeIndex}_gender`] || '',
                     age: parseInt(formData[`employee_${employeeIndex}_age`]) || 0,
@@ -336,7 +337,7 @@ async function submitToAirtable(formData) {
                 }
 
                 const employeeResult = await employeeResponse.json();
-                console.log(`Utworzono batch pracowników (${i+1}-${i+batch.length}):`, employeeResult.records.map(r => r.id));
+                console.log(`Utworzono batch pracowników (${i+1}-${i+batch.length}):`, employeeResult.records.map(r => `${r.fields.Id} (${r.id})`));
             }
         }
 
