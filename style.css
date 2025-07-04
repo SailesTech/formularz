@@ -216,10 +216,11 @@ body {
     border: none;
     max-height: 80vh;
     overflow-y: auto;
+    align-items: center;
 }
 
 .modal-header {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    linear-gradient(0deg, #ffc078 0%, #854b25 300%)
     color: white;
     border-radius: 15px 15px 0 0;
 }
