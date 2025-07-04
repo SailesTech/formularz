@@ -1,6 +1,6 @@
 :root {
-    --primary-color: #b5b5b5;
-    --secondary-color: #7e7f80;
+    --primary-color: #272a2b;
+    --secondary-color: #8f9396;
     --success-color: #27ae60;
     --danger-color: #e74c3c;
     --light-bg: #f0f0f0;
@@ -13,7 +13,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #73b1f0 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #fadebe 0%, #ffc078 100%);
     min-height: 100vh;
     margin: 0;
     padding: 20px;
