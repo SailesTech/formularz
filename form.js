@@ -151,12 +151,22 @@ function generatePreview() {
         </thead>
         <tbody>
           <tr>
-            <td>${d.company_name||'-'}</td><td>${d.company_nip||'-'}</td><td>${d.company_pkd||'-'}</td>
-            <td>${d.representative_person||'-'}</td><td>${d.representative_phone||'-'}</td>
-            <td>${d.contact_person_name||'-'}</td><td>${d.contact_person_phone||'-'}</td><td>${d.contact_person_email||'-'}</td>
-            <td>${d.company_address||'-'}</td><td>${d.activity_place||'-'}</td><td>${d.correspondence_address||'-'}</td>
-            <td>${d.bank_name||'-'}</td><td>${d.bank_account||'-'}</td><td>${d.total_employees||'-'}</td>
-            <td>${d.company_size||'-'}</td><td>${d.balance_under_2m||'-'}</td>
+            <td>${d.company_name||'-'}</td>
+            <td>${d.company_nip||'-'}</td>
+            <td>${d.company_pkd||'-'}</td>
+            <td>${d.representative_person||'-'}</td>
+            <td>${d.representative_phone||'-'}</td>
+            <td>${d.contact_person_name||'-'}</td>
+            <td>${d.contact_person_phone||'-'}</td>
+            <td>${d.contact_person_email||'-'}</td>
+            <td>${d.company_address||'-'}</td>
+            <td>${d.activity_place||'-'}</td>
+            <td>${d.correspondence_address||'-'}</td>
+            <td>${d.bank_name||'-'}</td>
+            <td>${d.bank_account||'-'}</td>
+            <td>${d.total_employees||'-'}</td>
+            <td>${d.company_size||'-'}</td>
+            <td>${d.balance_under_2m||'-'}</td>
           </tr>
         </tbody>
       </table>
@@ -166,23 +176,32 @@ function generatePreview() {
       <table class="table table-bordered table-sm">
         <thead>
           <tr>
-            <th>Lp.</th><th>Imię i nazw.</th><th>Płeć</th><th>Wiek</th>
-            <th>Wykształcenie</th><th>Rodzaj umowy</th><th>Od kiedy</th><th>Do kiedy</th>
+            <th>Lp.</th>
+            <th>Imię i nazw.</th>
+            <th>Stanowisko</th>
+            <th>Płeć</th>
+            <th>Wiek</th>
+            <th>Wykształcenie</th>
+            <th>Rodzaj umowy</th>
+            <th>Od kiedy</th>
+            <th>Do kiedy</th>
           </tr>
         </thead>
         <tbody>`;
   document.querySelectorAll('.employee-card').forEach((card, i) => {
-    const n = i+1;
-    html += `<tr>
-      <td>${n}</td>
-      <td>${d[`employee_${n}_name`]||'-'}</td>
-      <td>${d[`employee_${n}_gender`]||'-'}</td>
-      <td>${d[`employee_${n}_age`]||'-'}</td>
-      <td>${d[`employee_${n}_education`]||'-'}</td>
-      <td>${d[`employee_${n}_contract_type`]||'-'}</td>
-      <td>${d[`employee_${n}_contract_start`]||'-'}</td>
-      <td>${d[`employee_${n}_contract_end`]||'nieokreślony'}</td>
-    </tr>`;
+    const n = i + 1;
+    html += `
+      <tr>
+        <td>${n}</td>
+        <td>${d[`employee_${n}_name`]||'-'}</td>
+        <td>${d[`employee_${n}_position`]||'-'}</td>
+        <td>${d[`employee_${n}_gender`]||'-'}</td>
+        <td>${d[`employee_${n}_age`]||'-'}</td>
+        <td>${d[`employee_${n}_education`]||'-'}</td>
+        <td>${d[`employee_${n}_contract_type`]||'-'}</td>
+        <td>${d[`employee_${n}_contract_start`]||'-'}</td>
+        <td>${d[`employee_${n}_contract_end`]||'nieokreślony'}</td>
+      </tr>`;
   });
   html += `</tbody></table></div>`;
   return html;
