@@ -31,7 +31,7 @@ body {
 
 /* Header z logo */
 .header-section {
-    linear-gradient(0deg, #ffc078 0%, #854b25 300%)
+    linear-gradient(0deg, #ffc078 0%, #854b25 300%);
     color: white;
     padding: 40px 30px;
     text-align: center;
@@ -190,6 +190,17 @@ body {
 }
 
 .btn-submit {
+    background: linear-gradient(135deg, #ffc078 0%, #ffc078 100%);
+    border: none;
+    color: white;
+    padding: 15px 50px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    min-width: 200px;
+}
+.btn-success {
     background: linear-gradient(135deg, #ffc078 0%, #ffc078 100%);
     border: none;
     color: white;
