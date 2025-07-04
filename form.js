@@ -1,5 +1,13 @@
 let employeeCounter = 1;
 
+// Konfiguracja Airtable
+const AIRTABLE_CONFIG = {
+    pat: 'pat2GsVT2OUjyaYt7.0f1c8cde267165a96b2d01bfb8724f748db8493b9d8ce6ad81f30cefd6f0ebfb',
+    baseId: 'appglhQbUMO1xf7GO',
+    tableId: 'tbl2SOkYU0eBG2ZGj',
+    baseUrl: 'https://api.airtable.com/v0'
+};
+
 // Dodawanie nowego pracownika
 function addEmployee() {
     employeeCounter++;
@@ -117,47 +125,50 @@ function updateRemoveButtons() {
     });
 }
 
-// Generowanie podglądu (preview)
+// Generowanie podglądu (preview) z ulepszonym responsywnym wyświetlaniem
 function generatePreview() {
   const formData = new FormData(document.getElementById('kfsForm'));
   const d = Object.fromEntries(formData);
   let html = `
     <div class="preview-section">
       <h4 class="preview-title">Dane podmiotu</h4>
-      <table class="table table-bordered table-sm">
-        <thead>
-          <tr>
-            <th>Nazwa</th><th>NIP</th><th>PKD</th>
-            <th>Reprezentant</th><th>Tel. repr.</th>
-            <th>Kontakt</th><th>Tel. kontakt.</th><th>E-mail</th>
-            <th>Adres</th><th>Działalność</th><th>Korespondencja</th>
-            <th>Bank</th><th>Konto</th><th>Liczba prac.</th>
-            <th>Wielkość</th><th>Suma <2 mln EUR</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>${d.company_name||'-'}</td><td>${d.company_nip||'-'}</td><td>${d.company_pkd||'-'}</td>
-            <td>${d.representative_person||'-'}</td><td>${d.representative_phone||'-'}</td>
-            <td>${d.contact_person_name||'-'}</td><td>${d.contact_person_phone||'-'}</td><td>${d.contact_person_email||'-'}</td>
-            <td>${d.company_address||'-'}</td><td>${d.activity_place||'-'}</td><td>${d.correspondence_address||'-'}</td>
-            <td>${d.bank_name||'-'}</td><td>${d.bank_account||'-'}</td><td>${d.total_employees||'-'}</td>
-            <td>${d.company_size||'-'}</td><td>${d.balance_under_2m||'-'}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-responsive">
+        <table class="table table-bordered table-sm">
+          <thead>
+            <tr>
+              <th>Nazwa</th><th>NIP</th><th>PKD</th>
+              <th>Reprezentant</th><th>Tel. repr.</th>
+              <th>Kontakt</th><th>Tel. kontakt.</th><th>E-mail</th>
+              <th>Adres</th><th>Działalność</th><th>Korespondencja</th>
+              <th>Bank</th><th>Konto</th><th>Liczba prac.</th>
+              <th>Wielkość</th><th>Suma <2 mln EUR</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>${d.company_name||'-'}</td><td>${d.company_nip||'-'}</td><td>${d.company_pkd||'-'}</td>
+              <td>${d.representative_person||'-'}</td><td>${d.representative_phone||'-'}</td>
+              <td>${d.contact_person_name||'-'}</td><td>${d.contact_person_phone||'-'}</td><td>${d.contact_person_email||'-'}</td>
+              <td>${d.company_address||'-'}</td><td>${d.activity_place||'-'}</td><td>${d.correspondence_address||'-'}</td>
+              <td>${d.bank_name||'-'}</td><td>${d.bank_account||'-'}</td><td>${d.total_employees||'-'}</td>
+              <td>${d.company_size||'-'}</td><td>${d.balance_under_2m||'-'}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
     <div class="preview-section">
       <h4 class="preview-title">Pracownicy (${document.querySelectorAll('.employee-card').length})</h4>
-      <table class="table table-bordered table-sm">
-        <thead>
-          <tr>
-            <th>Lp.</th><th>Imię i nazw.</th><th>Stanowisko</th><th>Płeć</th>
-            <th>Wiek</th><th>Wykształcenie</th><th>Rodzaj umowy</th>
-            <th>Od kiedy</th><th>Do kiedy</th>
-          </tr>
-        </thead>
-        <tbody>`;
+      <div class="table-responsive">
+        <table class="table table-bordered table-sm">
+          <thead>
+            <tr>
+              <th>Lp.</th><th>Imię i nazw.</th><th>Stanowisko</th><th>Płeć</th>
+              <th>Wiek</th><th>Wykształcenie</th><th>Rodzaj umowy</th>
+              <th>Od kiedy</th><th>Do kiedy</th>
+            </tr>
+          </thead>
+          <tbody>`;
   document.querySelectorAll('.employee-card').forEach((_, i) => {
     const n = i + 1;
     html += `
@@ -173,11 +184,137 @@ function generatePreview() {
         <td>${d[`employee_${n}_contract_end`]||'nieokreślony'}</td>
       </tr>`;
   });
-  html += `</tbody></table></div>`;
+  html += `</tbody></table></div></div>`;
   return html;
 }
 
-// Reszta funkcji (walidacja, wysyłka, toasty, init)
+// Pobieranie ostatniego ID z Airtable
+async function getLastSubmissionId() {
+    try {
+        const response = await fetch(`${AIRTABLE_CONFIG.baseUrl}/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableId}?maxRecords=1&sort%5B0%5D%5Bfield%5D=submission_id&sort%5B0%5D%5Bdirection%5D=desc`, {
+            headers: {
+                'Authorization': `Bearer ${AIRTABLE_CONFIG.pat}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        
+        if (data.records && data.records.length > 0) {
+            const lastId = data.records[0].fields.submission_id;
+            // Jeśli submission_id jest w formacie KFS-XXXX, wyciągnij numer
+            if (lastId && lastId.startsWith('KFS-')) {
+                return parseInt(lastId.replace('KFS-', ''));
+            }
+            // Jeśli to tylko numer
+            return parseInt(lastId) || 0;
+        }
+        
+        return 0; // Jeśli brak rekordów, zaczynamy od 0
+    } catch (error) {
+        console.warn('Nie udało się pobrać ostatniego ID, używam wartości domyślnej:', error);
+        return 0;
+    }
+}
+
+// Generowanie nowego submission ID
+async function generateSubmissionId() {
+    const lastId = await getLastSubmissionId();
+    const newId = lastId + 1;
+    return `KFS-${newId.toString().padStart(4, '0')}`;
+}
+
+// Rzeczywiste wysyłanie do Airtable
+async function submitToAirtable(formData) {
+    try {
+        // Generuj nowe submission ID
+        const submissionId = await generateSubmissionId();
+        console.log('Wygenerowane submission ID:', submissionId);
+
+        // Przygotuj dane do wysłania
+        const airtableData = {
+            records: [{
+                fields: {
+                    submission_id: submissionId,
+                    submission_date: new Date().toISOString(),
+                    company_name: formData.company_name || '',
+                    company_nip: formData.company_nip || '',
+                    company_pkd: formData.company_pkd || '',
+                    representative_person: formData.representative_person || '',
+                    representative_phone: formData.representative_phone || '',
+                    contact_person_name: formData.contact_person_name || '',
+                    contact_person_phone: formData.contact_person_phone || '',
+                    contact_person_email: formData.contact_person_email || '',
+                    company_address: formData.company_address || '',
+                    activity_place: formData.activity_place || '',
+                    correspondence_address: formData.correspondence_address || '',
+                    bank_name: formData.bank_name || '',
+                    bank_account: formData.bank_account || '',
+                    total_employees: parseInt(formData.total_employees) || 0,
+                    company_size: formData.company_size || '',
+                    balance_under_2m: formData.balance_under_2m || '',
+                    status: 'Nowy'
+                }
+            }]
+        };
+
+        // Dodaj dane pracowników do głównego rekordu
+        let employeeIndex = 1;
+        while (formData[`employee_${employeeIndex}_name`]) {
+            const empData = {
+                [`employee_${employeeIndex}_name`]: formData[`employee_${employeeIndex}_name`] || '',
+                [`employee_${employeeIndex}_gender`]: formData[`employee_${employeeIndex}_gender`] || '',
+                [`employee_${employeeIndex}_age`]: parseInt(formData[`employee_${employeeIndex}_age`]) || 0,
+                [`employee_${employeeIndex}_education`]: formData[`employee_${employeeIndex}_education`] || '',
+                [`employee_${employeeIndex}_position`]: formData[`employee_${employeeIndex}_position`] || '',
+                [`employee_${employeeIndex}_contract_type`]: formData[`employee_${employeeIndex}_contract_type`] || '',
+                [`employee_${employeeIndex}_contract_start`]: formData[`employee_${employeeIndex}_contract_start`] || '',
+                [`employee_${employeeIndex}_contract_end`]: formData[`employee_${employeeIndex}_contract_end`] || ''
+            };
+            
+            // Dodaj dane pracownika do głównego rekordu
+            Object.assign(airtableData.records[0].fields, empData);
+            employeeIndex++;
+        }
+
+        console.log('Dane do wysłania do Airtable:', airtableData);
+
+        // Wyślij dane do Airtable
+        const response = await fetch(`${AIRTABLE_CONFIG.baseUrl}/${AIRTABLE_CONFIG.baseId}/${AIRTABLE_CONFIG.tableId}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${AIRTABLE_CONFIG.pat}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(airtableData)
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Błąd Airtable:', errorData);
+            throw new Error(`Błąd Airtable: ${response.status} - ${errorData.error?.message || 'Nieznany błąd'}`);
+        }
+
+        const result = await response.json();
+        console.log('Odpowiedź z Airtable:', result);
+
+        return {
+            success: true,
+            submissionId: submissionId,
+            recordId: result.records[0].id
+        };
+
+    } catch (error) {
+        console.error('Błąd podczas wysyłania do Airtable:', error);
+        throw error;
+    }
+}
+
+// Walidacja formularza
 function validateForm() {
   const form = document.getElementById('kfsForm');
   const required = form.querySelectorAll('[required]');
@@ -193,52 +330,72 @@ function validateForm() {
   return ok;
 }
 
-async function submitToAirtable(data) {
-  console.log('Wysyłam do Airtable:', data);
-  return new Promise(r => setTimeout(() => r({success:true}), 500));
-}
-
+// Wyświetlanie komunikatów
 function showMessage(msg, type='success') {
   const toast = document.createElement('div');
   toast.style.cssText = `
-    position:fixed; top:20px; right:20px; padding:10px 15px;
+    position:fixed; top:20px; right:20px; padding:15px 20px;
     background:${type==='success'? '#27ae60':'#c0392b'};
-    color:#fff; border-radius:5px; z-index:9999;
+    color:#fff; border-radius:8px; z-index:9999;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    font-weight: 500;
   `;
   toast.textContent = msg;
   document.body.appendChild(toast);
-  setTimeout(() => toast.remove(), 3000);
+  setTimeout(() => toast.remove(), 4000);
 }
 
+// Inicjalizacja po załadowaniu DOM
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('addEmployeeBtn').addEventListener('click', addEmployee);
+  
   document.getElementById('submitBtn').addEventListener('click', () => {
     if (!validateForm()) return showMessage('Wypełnij wymagane pola','error');
     document.getElementById('previewContent').innerHTML = generatePreview();
     new bootstrap.Modal(document.getElementById('previewModal')).show();
   });
+  
   document.getElementById('finalSubmitBtn').addEventListener('click', async function() {
-    const btn = this; btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    const btn = this; 
+    const originalText = btn.innerHTML;
+    btn.disabled = true; 
+    btn.innerHTML = '<i class="fas fa-spinner spinner"></i> Wysyłam...';
+    
     try {
-      const data = Object.fromEntries(new FormData(document.getElementById('kfsForm')));
-      const res = await submitToAirtable(data);
-      showMessage(res.success? 'Wysłano pomyślnie':'Błąd','success');
-      bootstrap.Modal.getInstance(document.getElementById('previewModal')).hide();
-    } catch {
-      showMessage('Błąd wysyłki','error');
+      const formData = Object.fromEntries(new FormData(document.getElementById('kfsForm')));
+      const result = await submitToAirtable(formData);
+      
+      if (result.success) {
+        showMessage(`Wniosek wysłany pomyślnie! ID: ${result.submissionId}`, 'success');
+        bootstrap.Modal.getInstance(document.getElementById('previewModal')).hide();
+        
+        // Opcjonalnie: wyczyść formularz lub przekieruj
+        // document.getElementById('kfsForm').reset();
+      }
+    } catch (error) {
+      console.error('Błąd podczas wysyłania:', error);
+      showMessage(`Błąd wysyłki: ${error.message}`, 'error');
     } finally {
-      btn.disabled = false; btn.textContent = 'Wyślij wniosek';
+      btn.disabled = false; 
+      btn.innerHTML = originalText;
     }
   });
-  // real-time validation
+  
+  // Walidacja w czasie rzeczywistym
   document.addEventListener('input', e => {
     if (e.target.required) {
-      e.target.classList.toggle('is-valid', !!e.target.value.trim());
+      if (e.target.value.trim()) {
+        e.target.classList.remove('is-invalid');
+        e.target.classList.add('is-valid');
+      } else {
+        e.target.classList.remove('is-valid');
+        e.target.classList.add('is-invalid');
+      }
     }
   });
+  
   updateRemoveButtons();
 });
-
 
 // Style dla animacji (dodaj do CSS jeśli potrzebne)
 const style = document.createElement('style');
@@ -253,9 +410,18 @@ style.textContent = `
     }
     .is-invalid {
         border-color: #e74c3c !important;
+        box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25) !important;
     }
     .is-valid {
         border-color: #27ae60 !important;
+        box-shadow: 0 0 0 0.2rem rgba(39, 174, 96, 0.25) !important;
+    }
+    .spinner {
+        animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
     }
 `;
 document.head.appendChild(style);
