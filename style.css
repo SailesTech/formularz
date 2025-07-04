@@ -212,20 +212,30 @@ body {
 /* Modal styles */
 .modal-dialog {
   max-width: 90vw;
+  margin: 1rem auto;
 }
 
 .modal-content {
-    border-radius: 15px;
-    border: none;
-    max-height: 80vh;
-    overflow-y: auto;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 90vh;
+  overflow: hidden;
 }
 
 .modal-header {
     background: linear-gradient(0deg, #ffc078 0%, #854b25 300%);
     color: white;
     border-radius: 15px 15px 0 0;
+}
+.modal-header,
+.modal-body,
+.modal-footer {
+  width: 100%;
+}
+.modal-body {
+  padding: 1rem;
+  overflow-y: auto;
 }
 
 .preview-section {
