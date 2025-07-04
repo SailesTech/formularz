@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formularz zgłoszeniowy pracowników</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Formularz zgłoszeniowy pracowników</h1>
+        
+        <form id="employeeForm">
+            <!-- Dane firmy -->
+            <div class="section">
+                <h2>Dane firmy</h2>
+                <div class="form-group">
+                    <label for="companyName">Nazwa firmy:</label>
+                    <input type="text" id="companyName" name="companyName" required>
+                </div>
+                <div class="form-group">
+                    <label for="nip">NIP:</label>
+                    <input type="text" id="nip" name="nip" required>
+                </div>
+                <div class="form-group">
+                    <label for="address">Adres:</label>
+                    <input type="text" id="address" name="address" required>
+                </div>
+                <div class="form-group">
+                    <label for="contactPerson">Osoba kontaktowa:</label>
+                    <input type="text" id="contactPerson" name="contactPerson" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Telefon:</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+            </div>
+
+            <!-- Pracownicy -->
+            <div class="section">
+                <h2>Lista pracowników</h2>
+                <div id="employeesList">
+                    <!-- Pierwszy wiersz pracownika -->
+                    <div class="employee-row">
+                        <h3>Pracownik 1</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Imię:</label>
+                                <input type="text" name="firstName[]" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Nazwisko:</label>
+                                <input type="text" name="lastName[]" required>
+                            </div>
+                            <div class="form-group">
+                                <label>PESEL:</label>
+                                <input type="text" name="pesel[]" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Data urodzenia:</label>
+                                <input type="date" name="birthDate[]" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Grupa wiekowa:</label>
+                                <select name="ageGroup[]" required>
+                                    <option value="">Wybierz</option>
+                                    <option value="15-24">15-24 lata</option>
+                                    <option value="25-29">25-29 lat</option>
+                                    <option value="30-49">30-49 lat</option>
+                                    <option value="50+">50+ lat</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Wykształcenie:</label>
+                                <select name="education[]" required>
+                                    <option value="">Wybierz</option>
+                                    <option value="podstawowe">Podstawowe</option>
+                                    <option value="zawodowe">Zawodowe</option>
+                                    <option value="średnie">Średnie</option>
+                                    <option value="wyższe">Wyższe</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Stanowisko:</label>
+                                <input type="text" name="position[]" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Rodzaj szkolenia:</label>
+                                <select name="trainingType[]" required>
+                                    <option value="">Wybierz</option>
+                                    <option value="bhp">BHP</option>
+                                    <option value="zawodowe">Zawodowe</option>
+                                    <option value="językowe">Językowe</option>
+                                    <option value="komputerowe">Komputerowe</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="remove-employee" onclick="removeEmployee(this)">Usuń pracownika</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="button" id="addEmployee" class="btn-secondary">+ Dodaj pracownika</button>
+            </div>
+
+            <!-- Podsumowanie -->
+            <div class="section">
+                <h2>Podsumowanie</h2>
+                <div id="summary">
+                    <p>Liczba pracowników: <span id="employeeCount">1</span></p>
+                    <div id="ageSummary"></div>
+                    <div id="educationSummary"></div>
+                </div>
+            </div>
+
+            <!-- Przycisk wysłania -->
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Wyślij zgłoszenie</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
