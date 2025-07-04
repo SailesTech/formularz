@@ -500,6 +500,69 @@ body {
     border-color: var(--success-color);
 }
 
+.thank-you-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, #fceeb8 0%, #ffc078 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.thank-you-content {
+    background: white;
+    border-radius: 15px;
+    padding: 50px 40px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    max-width: 500px;
+    width: 90%;
+}
+
+.thank-you-icon {
+    font-size: 4rem;
+    color: #27ae60;
+    margin-bottom: 20px;
+}
+
+.thank-you-title {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.thank-you-message {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.thank-you-info {
+    font-size: 0.95rem;
+    color: #888;
+    margin-bottom: 30px;
+}
+
+@media (max-width: 768px) {
+    .thank-you-content {
+        padding: 30px 25px;
+    }
+    
+    .thank-you-title {
+        font-size: 1.4rem;
+    }
+    
+    .thank-you-icon {
+        font-size: 3rem;
+    }
+}
+
 /* Animacje */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
