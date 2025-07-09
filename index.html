@@ -3,132 +3,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formularz zgłoszeniowy pracowników</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Formularz KFS 2025 - Wniosek o finansowanie</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1>Formularz zgłoszeniowy pracowników</h1>
-        
-        <form id="employeeForm">
-            <!-- Dane firmy -->
-            <div class="section">
-                <h2>Dane firmy</h2>
-                <div class="form-group">
-                    <label for="companyName">Nazwa firmy:</label>
-                    <input type="text" id="companyName" name="companyName" required>
-                </div>
-                <div class="form-group">
-                    <label for="nip">NIP:</label>
-                    <input type="text" id="nip" name="nip" required>
-                </div>
-                <div class="form-group">
-                    <label for="address">Adres:</label>
-                    <input type="text" id="address" name="address" required>
-                </div>
-                <div class="form-group">
-                    <label for="contactPerson">Osoba kontaktowa:</label>
-                    <input type="text" id="contactPerson" name="contactPerson" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Telefon:</label>
-                    <input type="tel" id="phone" name="phone" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
+    <div class="main-container">
+        <!-- Header z logo -->
+        <div class="header-section">
+            <div class="logo">
+                <i class="fas fa-file-contract"></i>
             </div>
+            <h1 class="header-title">
+                Wniosek o sfinansowanie kosztów kształcenia ustawicznego pracowników
+            </h1>
+        </div>
 
-            <!-- Pracownicy -->
-            <div class="section">
-                <h2>Lista pracowników</h2>
-                <div id="employeesList">
-                    <!-- Pierwszy wiersz pracownika -->
-                    <div class="employee-row">
-                        <h3>Pracownik 1</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Imię:</label>
-                                <input type="text" name="firstName[]" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Nazwisko:</label>
-                                <input type="text" name="lastName[]" required>
-                            </div>
-                            <div class="form-group">
-                                <label>PESEL:</label>
-                                <input type="text" name="pesel[]" required>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Data urodzenia:</label>
-                                <input type="date" name="birthDate[]" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Grupa wiekowa:</label>
-                                <select name="ageGroup[]" required>
-                                    <option value="">Wybierz</option>
-                                    <option value="15-24">15-24 lata</option>
-                                    <option value="25-29">25-29 lat</option>
-                                    <option value="30-49">30-49 lat</option>
-                                    <option value="50+">50+ lat</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Wykształcenie:</label>
-                                <select name="education[]" required>
-                                    <option value="">Wybierz</option>
-                                    <option value="podstawowe">Podstawowe</option>
-                                    <option value="zawodowe">Zawodowe</option>
-                                    <option value="średnie">Średnie</option>
-                                    <option value="wyższe">Wyższe</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Stanowisko:</label>
-                                <input type="text" name="position[]" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Rodzaj szkolenia:</label>
-                                <select name="trainingType[]" required>
-                                    <option value="">Wybierz</option>
-                                    <option value="bhp">BHP</option>
-                                    <option value="zawodowe">Zawodowe</option>
-                                    <option value="językowe">Językowe</option>
-                                    <option value="komputerowe">Komputerowe</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <button type="button" class="remove-employee" onclick="removeEmployee(this)">Usuń pracownika</button>
-                            </div>
-                        </div>
+        <div class="form-content">
+            <form id="kfsForm">
+                <!-- SEKCJA 1: DANE PODMIOTU -->
+                <div class="mb-5">
+                  <h2 class="section-title">
+                    <i class="fas fa-building"></i>
+                    Sekcja 1: Dane podmiotu
+                  </h2>
+                  <!-- Wiersz 1: nazwa | NIP | PKD -->
+                  <div class="form-row">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <label class="form-label">Nazwa podmiotu <span class="required">*</span></label>
+                        <input type="text" class="form-control" name="company_name" required>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="form-label">NIP <span class="required">*</span></label>
+                        <input type="text" class="form-control" name="company_nip"
+                               pattern="[0-9]{3}-?[0-9]{3}-?[0-9]{2}-?[0-9]{2}" required>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="form-label">Główne PKD <span class="required">*</span></label>
+                        <input type="text" class="form-control" name="company_pkd" required>
+                      </div>
                     </div>
+                  </div>
+                  <!-- Wiersz 2: reprezentant i kontakt w jednej linii -->
+                  <div class="form-row">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <label class="form-label">Reprezentant <span class="required">*</span></label>
+                        <input type="text" class="form-control" name="representative_person" required>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="form-label">Tel. repr. <span class="required">*</span></label>
+                        <input type="tel" class="form-control" name="representative_phone" required>
+                      </div>
+                      <div class="col-md-3">
+                        <label class="form-label">Kontakt (imię i nazw.) <span class="required">*</span></label>
+                        <input type="text" class="form-control" name="contact_person_name" required>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="form-label">Tel. kontaktowy <span class="required">*</span></label>
+                        <input type="tel" class="form-control" name="contact_person_phone" required>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="form-label">E-mail kontaktowy <span class="required">*</span></label>
+                        <input type="email" class="form-control" name="contact_person_email" required>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Wiersz 3: adresy -->
+                  <div class="form-row">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <label class="form-label">Adres siedziby <span class="required">*</span></label>
+                        <textarea class="form-control" name="company_address" rows="2" required></textarea>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="form-label">Miejsce działalności <span class="required">*</span></label>
+                        <textarea class="form-control" name="activity_place" rows="2" required></textarea>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="form-label">Adres korespondencji <span class="required">*</span></label>
+                        <textarea class="form-control" name="correspondence_address" rows="2" required></textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Wiersz 4: bank, konto, pracownicy, wielkość, suma -->
+                  <div class="form-row">
+                    <div class="row">
+                      <div class="col-md-2">
+                        <label class="form-label">Nazwa banku <span class="required">*</span></label>
+                        <input type="text" class="form-control" name="bank_name" required>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="form-label">Numer konta <span class="required">*</span></label>
+                        <input type="text" class="form-control" name="bank_account" required>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="form-label">Łączna liczba prac. <span class="required">*</span></label>
+                        <input type="number" class="form-control" name="total_employees" min="1" required>
+                      </div>
+                      <div class="col-md-3">
+                        <label class="form-label">Wielkość podmiotu <span class="required">*</span></label>
+                        <select class="form-select" name="company_size" required>
+                          <option value="">Wybierz</option>
+                          <option value="mikro">Mikro</option>
+                          <option value="mały">Mały</option>
+                          <option value="średni">Średni</option>
+                          <option value="duży">Duży</option>
+                          <option value="inne">Inne</option>
+                        </select>
+                      </div>
+                      <div class="col-md-3">
+                        <label class="form-label">Roczna suma <2 mln EUR? <span class="required">*</span></label>
+                        <select class="form-select" name="balance_under_2m" required>
+                          <option value="">Wybierz</option>
+                          <option value="tak">TAK</option>
+                          <option value="nie">NIE</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                
-                <button type="button" id="addEmployee" class="btn-secondary">+ Dodaj pracownika</button>
-            </div>
 
-            <!-- Podsumowanie -->
-            <div class="section">
-                <h2>Podsumowanie</h2>
-                <div id="summary">
-                    <p>Liczba pracowników: <span id="employeeCount">1</span></p>
-                    <div id="ageSummary"></div>
-                    <div id="educationSummary"></div>
+                <!-- SEKCJA 2: PRACOWNICY -->
+                <div class="mb-5">
+                  <h2 class="section-title">
+                    <i class="fas fa-users"></i>
+                    Sekcja 2: Dane pracowników
+                  </h2>
+                  
+                  <div id="employeesContainer">
+                    <!-- Pracownicy będą dodawani tutaj dynamicznie -->
+                  </div>
+
+                  <div class="add-employee-section">
+                    <p class="text-muted mb-3">
+                      <i class="fas fa-info-circle"></i>
+                      Dodaj pracowników, dla których składasz wniosek o finansowanie kształcenia
+                    </p>
+                    <button type="button" id="addEmployeeBtn" class="add-employee-btn">
+                      <i class="fas fa-plus"></i> Dodaj pierwszego pracownika
+                    </button>
+                  </div>
                 </div>
-            </div>
 
-            <!-- Przycisk wysłania -->
-            <div class="form-actions">
-                <button type="submit" class="btn-primary">Wyślij zgłoszenie</button>
+            <!-- SUBMIT SECTION -->
+            <div class="submit-section">
+                <div class="mb-3">
+                    <small class="text-muted">
+                        <i class="fas fa-check-circle text-success"></i>
+                        Przed wysłaniem sprawdź wszystkie dane w podglądzie
+                    </small>
+                </div>
+                <button type="button" class="btn-submit" id="submitBtn">
+                    <i class="fas fa-paper-plane"></i>
+                    Wyślij wniosek
+                </button>
             </div>
-        </form>
+        </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Modal podglądu -->
+    <div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-eye"></i>
+                        Podgląd wniosku przed wysłaniem
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="previewContent">
+                    <!-- Tutaj będzie podgląd danych -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-edit"></i> Popraw dane
+                    </button>
+                    <button type="button" class="btn btn-success" id="finalSubmitBtn">
+                        <i class="fas fa-check"></i> Wyślij wniosek
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Strona podziękowania (ukryta początkowo) -->
+    <div id="thankYouPage" class="thank-you-page" style="display: none;">
+        <div class="thank-you-content">
+            <div class="thank-you-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2 class="thank-you-title">Dziękujemy za przesłanie zgłoszenia!</h2>
+            <p class="thank-you-message">
+                Twój wniosek został pomyślnie wysłany.<br>
+                <strong>Numer zgłoszenia: <span id="submissionNumber"></span></strong>
+            </p>
+            <p class="thank-you-info">
+                Skontaktujemy się z Tobą w ciągu 2-3 dni roboczych.
+            </p>
+            <button type="button" class="btn-submit" onclick="location.reload()">
+                <i class="fas fa-plus"></i> Wyślij kolejne zgłoszenie
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="form.js"></script>
 </body>
 </html>
